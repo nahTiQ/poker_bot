@@ -14,8 +14,7 @@ def create_players(number_of_players):
 	for number in range(0, number_of_players):
 		player_list.append(Player(list_of_player_names[number]))
 
-# Names for CPU opponents
-list_of_player_names = ['Player_2', 'Player_3', 'Player_4', 'Player_5', 'Player_6', 'Player_7', 'Player_8' ]
+# List for player objects
 player_list = []
 
 # Create the table
@@ -23,36 +22,68 @@ table = Table()
 
 # Create the deck
 deck = Deck()
-help(deck)
+
 # Print banner
 print('---------------------------------------------')
 print('|                                           |')
-print("|                  Klon3d's                 |")
+print("|                 nameless                  |")
 print("|              Poker Simulator              |")
 print('|                                           |')
 print('|                                           |')
 print('---------------------------------------------')
 
-# Create players
-Player(Player.create_player())
+# Create player
+player_1 = Player(Player.create_player())
+player_list.insert(0, player_1) # Put player_1 at the front of list of players so he's dealt cards first
 
-number_of_players = input("How many players would you like to play with? (1-7) ")
+# Ask for number of CPU opponents
+number_of_players = table.ask_for_players()
 
-table.players_at_table(number_of_players)
+# Create CPU opponents
+
 create_players(number_of_players)
 
-''' Test to check players hands 
-for item in list_of_player_names:
+''' ----- PLAYER HAND TEST -----
+	Test to check players hands 
+
+	for item in list_of_player_names:
 	try:
 		print(f'{item.name.title()} has {item.hand} in his hand')
 	except AttributeError:
 		pass
 '''
+
 print('Shuffling cards...')
 shuffle(deck.cards)
 
 print('Dealing cards...')
 deck.deal_to_players(player_list)
 
+# Player should see his hand here
+print(player_1.hand)
+
+print("Dealing the flop...")
+table.accept_cards(deck.deal_flop())
+print(table.cards)
+
+print("Dealing the turn...")
+table.accept_cards(deck.deal_turn())
+print(table.cards)
+
+print("Dealing the river...")
+table.accept_cards(deck.deal_river())
+print(table.cards)
+
+''' ---- TEST FOR DUPLICATE CARDS -----
+	Test for duplicates between players hands
+	and whats left in the deck. If this returns
+	true, then dealing is not working properly 
+
 for player in player_list:
-	print(f"{player.name}'s hand: {player.hand}")
+	for hand in player.hand:
+		if hand in deck.cards:
+			test = True 
+		else:
+			test = False
+print(test)
+'''

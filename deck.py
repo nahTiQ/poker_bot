@@ -21,7 +21,7 @@ class Deck:
 		shuffle(self.cards)
 
 	def deal_to_players(self, list_of_players):
-		self.list_of_players = list_of_players
+		list_of_players = list_of_players
 		''' Deal cards from the deck to all of the players hands
 		Must be passed a list of player objects '''
 
@@ -30,25 +30,34 @@ class Deck:
 		# Remove cards from the list with .pop() when they're dealt so they can't be dealt twice
 		# Deal to player_1 first
 		# Deal to the rest of the players
-		for player in self.list_of_players:
+		for player in list_of_players:
 			while len(player.hand) < 2:
 				player.hand.append(self.cards.pop(0))
-		
-
-				
 
 	def deal_flop(self):
-		'''Deal 3 cards to the table'''
-		'''Burn card then deal 3'''
+		'''Discard a card and deal 3 cards to the table'''
+		self.discard.append(self.cards.pop(0))
+		cards_to_table = []
+
+		for card in range(0,3):
+			cards_to_table.append(self.cards.pop(card))
+		return cards_to_table
 
 	def deal_turn(self):
 		'''Deal the 4th card to the table'''
 		'''Burn card then deal 1'''
-		print('')
+
+		cards_to_table = []
+		self.discard.append(self.cards.pop(0))
+		cards_to_table.append(self.cards.pop(0))
+		return cards_to_table
 
 	def deal_river(self):
-		'''Burn card then deal the river'''
-		print('')
+		'''Burn card then deal the last card to the table'''
+		cards_to_table = []
+		self.discard.append(self.cards.pop(0))
+		cards_to_table.append(self.cards.pop(0))
+		return cards_to_table
 
 	def rebuild_deck(self):
 		''' Reset the deck back to it's original state'''
