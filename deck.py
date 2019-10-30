@@ -41,7 +41,7 @@ class Deck:
 
 		for card in range(0,3):
 			cards_to_table.append(self.cards.pop(card))
-		return cards_to_table
+		return cards_to_table        
 
 	def deal_turn(self):
 		'''Deal the 4th card to the table'''
@@ -50,7 +50,7 @@ class Deck:
 		cards_to_table = []
 		self.discard.append(self.cards.pop(0))
 		cards_to_table.append(self.cards.pop(0))
-		return cards_to_table
+		return cards_to_table 
 
 	def deal_river(self):
 		'''Burn card then deal the last card to the table'''
@@ -58,6 +58,10 @@ class Deck:
 		self.discard.append(self.cards.pop(0))
 		cards_to_table.append(self.cards.pop(0))
 		return cards_to_table
+
+	def print_discard(self):
+		for card in self.discard:
+			print(card)
 
 	def rebuild_deck(self):
 		''' Reset the deck back to it's original state'''

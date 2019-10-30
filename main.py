@@ -5,7 +5,8 @@ from players import *
 from table import Table
 
 # Names for CPU opponents
-list_of_player_names = ['Player_2', 'Player_3', 'Player_4', 'Player_5', 'Player_6', 'Player_7', 'Player_8' ]
+# list_of_player_names = ['Player_2', 'Player_3', 'Player_4', 'Player_5', 'Player_6', 'Player_7', 'Player_8' ]
+list_of_player_names = ['Chase', 'Jon', 'Kale', 'Ron', 'Ashley', 'Ty', 'Tina']
 
 # idk where to put this, so it's going here
 # Creates player variables, tho
@@ -56,23 +57,30 @@ create_players(number_of_players)
 print('Shuffling cards...')
 shuffle(deck.cards)
 
-print('Dealing cards...')
+print('Dealing cards...\n')
 deck.deal_to_players(player_list)
 
 # Player should see his hand here
-print(player_1.hand)
+print('+-----YOUR HAND-----+')
+for card in range(0,2):
+	print(f'      {player_1.hand[card]}   ')
+print('+-------------------+\n')
+table.print_pot(player_list, player_1.bet_money())
 
-print("Dealing the flop...")
+print("Dealing the flop...\n")
 table.accept_cards(deck.deal_flop())
-print(table.cards)
+table.print_table()
+table.print_pot(player_list, player_1.bet_money())
 
-print("Dealing the turn...")
+print("Dealing the turn...\n")
 table.accept_cards(deck.deal_turn())
-print(table.cards)
+table.print_table()
+player_1.bet_money()
 
-print("Dealing the river...")
+print("Dealing the river...\n")
 table.accept_cards(deck.deal_river())
-print(table.cards)
+table.print_table()
+table.pot(player_1.bet_money())
 
 ''' ---- TEST FOR DUPLICATE CARDS -----
 	Test for duplicates between players hands
@@ -87,3 +95,6 @@ for player in player_list:
 			test = False
 print(test)
 '''
+
+print(f'These cards were discarded during the game: ')
+deck.print_discard()
