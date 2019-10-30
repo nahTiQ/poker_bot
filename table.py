@@ -6,6 +6,7 @@ class Table:
 	def __init__(self):
 		self.players = 0
 		self.cards = []
+		self.pot_round = 0
 		self.pot = 0
 
 	def ask_for_players(self):
@@ -41,13 +42,20 @@ class Table:
 		----- TO DO -----
 		Build seperate function that gets passed bot hand strength and bets
 		based on "confidence in your hand" '''
-		bet_to_pot = 0
+		bot_bet = 0
+		self.pot_round = 0
 		for player in list_of_players:
-			bot_bet = randint(1,5)
-			print(f'{player.name.title()} bet ${bot_bet}')
-			bet_to_pot += bot_bet
-		self.pot += player_bet + bet_to_pot
-		print(f"The current table pot is ${self.pot}")
+			if player == list_of_players[0]:
+				bot_bet = 0
+			else:
+				bot_bet = randint(1,5)
+			if player == list_of_players[0]:
+				print(f"{player.name} bet ${player_bet}")
+			else:
+				print(f'{player.name.title()} bet ${bot_bet}')
+			self.pot_round += bot_bet
+		self.pot += player_bet + self.pot_round
+		print(f"The current table pot is ${self.pot}\n ")
 
 	def reset_pot(self):
 		self.pot = 0

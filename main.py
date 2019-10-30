@@ -10,10 +10,16 @@ list_of_player_names = ['Chase', 'Jon', 'Kale', 'Ron', 'Ashley', 'Ty', 'Tina']
 
 # idk where to put this, so it's going here
 # Creates player variables, tho
+
+''' ----- TO DO -----
+Add more names and pass choice() to randomly generate player names
+choice() currently grabs the first letter of each name for some reason
+'''
+
 def create_players(number_of_players):
 	number_of_players = int(number_of_players)
 	for number in range(0, number_of_players):
-		player_list.append(Player(list_of_player_names[number]))
+		player_list.append(Player((list_of_player_names[number])))
 
 # List for player objects
 player_list = []
@@ -61,26 +67,26 @@ print('Dealing cards...\n')
 deck.deal_to_players(player_list)
 
 # Player should see his hand here
-print('+-----YOUR HAND-----+')
-for card in range(0,2):
-	print(f'      {player_1.hand[card]}   ')
-print('+-------------------+\n')
+player_1.print_hand()
 table.print_pot(player_list, player_1.bet_money())
 
 print("Dealing the flop...\n")
 table.accept_cards(deck.deal_flop())
+player_1.print_hand()
 table.print_table()
 table.print_pot(player_list, player_1.bet_money())
 
 print("Dealing the turn...\n")
 table.accept_cards(deck.deal_turn())
+player_1.print_hand()
 table.print_table()
-player_1.bet_money()
+table.print_pot(player_list, player_1.bet_money())
 
 print("Dealing the river...\n")
 table.accept_cards(deck.deal_river())
+player_1.print_hand()
 table.print_table()
-table.pot(player_1.bet_money())
+table.print_pot(player_list, player_1.bet_money())
 
 ''' ---- TEST FOR DUPLICATE CARDS -----
 	Test for duplicates between players hands

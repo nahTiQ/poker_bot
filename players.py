@@ -14,13 +14,18 @@ class Player:
 			else:
 				with open('player.txt', 'w') as player_file:
 					player_file.write(player)
-				print(f"Welcome to the table, {player}")
+				print(f"Welcome to the table, {player}!")
 		return player
 
-	def add_player_to_list():
-		print('')
+	def print_hand(self):
+		print('+-----YOUR HAND-----+')
+		for card in range(0,2):
+			print(f'      {self.hand[card]}   ')
+		print('+-------------------+\n')
 
 	def bet_money(self):
+		'''Ask player for bet amount and test it against players purse
+		Retun amount and pass it to Table.print_pot'''
 		while True:
 			bet = input(f"How much would you like to bet? \nYou currently have ${self.money}\nBet: ")
 			try:
@@ -34,7 +39,7 @@ class Player:
 					continue
 				else:
 					self.money -= bet
-					print(f"You have ${self.money} left.")
+					print(f"You have ${self.money} left.\n")
 					return bet
 					break
 
