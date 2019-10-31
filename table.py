@@ -32,33 +32,52 @@ class Table:
 			self.cards.append(card)
 
 	def print_table(self):
+		'''Prints the table cards to the console'''
 		print('+----- TABLE -----+')
-		for card in range(0, len(self.cards)):
-			print(self.cards[card])
+		for card in self.cards:
+			print(card)
 		print('+-----------------+\n')
 
-	def print_pot(self, list_of_players, player_bet=0):
+	def print_pot(self, list_of_players, player_bet):
 		'''Take all bets and print pot to console
 		----- TO DO -----
 		Build seperate function that gets passed bot hand strength and bets
 		based on "confidence in your hand" '''
 		bot_bet = 0
 		self.pot_round = 0
+		print('\n+----- PLAYER BETS -----+')
 		for player in list_of_players:
 			if player == list_of_players[0]:
 				bot_bet = 0
 			else:
 				bot_bet = randint(1,5)
 			if player == list_of_players[0]:
-				print(f"{player.name} bet ${player_bet}")
+				print(f"   {player.name} bet ${player_bet}")
 			else:
-				print(f'{player.name.title()} bet ${bot_bet}')
+				print(f'   {player.name.title()} bet ${bot_bet}')
 			self.pot_round += bot_bet
 		self.pot += player_bet + self.pot_round
-		print(f"The current table pot is ${self.pot}\n ")
+		print(f"The current table pot is ${self.pot}")
+		print('+----- END BETS -----+\n')
 
-	def reset_pot(self):
+	def reset_table(self):
 		self.pot = 0
+		self.cards = []
+
+	def play_again(play_bool):
+		keep_playing = ''
+		while keep_playing != 'y' and keep_playing != 'n':
+			keep_playing = input("Whould you like to play again? (y/n)")
+			if keep_playing.lower() == 'y':
+				return True
+			elif keep_playing.lower() == 'n':
+				return False
+			elif keep_playing != 'y' and keep_playing != 'n':
+				print("You must select (Y) or (N)o")
+				continue
+
+	def who_wins(self, handstrengths):
+		'''Give a dictionary of hand strengths?'''
 
 	# def players_at_table(self, number):
 		'''Check if user is trying to add more than 7 players to the table'''

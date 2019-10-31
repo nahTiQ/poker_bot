@@ -4,21 +4,24 @@ from players import Player
 class Deck:
 	'''Controlling the deck for poker'''
 	def __init__(self):
-		self.cards = ['Ace-Clubs', 'King-Clubs', 'Queen-Clubs', 'Jack-Clubs', '10-Clubs', '9-Clubs',
-					'8-Clubs', '7-Clubs', '6-Clubs', '5-Clubs', '4-Clubs', '3-Clubs', '2-Clubs',
-					'Ace-Spades', 'King-Spades', 'Queen-Spades', 'Jack-Spades', '10-Spades', 
-					'9-Spades', '8-Spades', '7-Spades', '6-Spades', '5-Spades', '4-Spades', '3-Spades',
-					'4-Spades', '3-Spades', '2-Spades', 'Ace-Hearts', 'King-Hearts', 'Queen-Hearts',
-					'Jack-Hearts', '10-Hearts', '9-Hearts', '8-Hearts', '7-Hearts', '6-Hearts', 
-					'5-Hearts', '4-Hearts', '3-Hearts', '2-Hearts', 'Ace-Diamonds', 'King-Diamonds',
-					'Queen-Diamonds', 'Jack-Diamonds', '10-Diamonds', '9-Diamonds', '8-Diamonds', 
-					'7-Diamonds', '6-Diamonds', '5-Diamonds', '4-Diamonds', '3-Diamonds', '2-Diamonds'  ]
+		self.cards = ['Ace Clubs', 'King Clubs', 'Queen Clubs', 'Jack Clubs', '10 Clubs', '9 Clubs',
+					'8 Clubs', '7 Clubs', '6 Clubs', '5 Clubs', '4 Clubs', '3 Clubs', '2 Clubs',
+					'Ace Spades', 'King Spades', 'Queen Spades', 'Jack Spades', '10 Spades', 
+					'9 Spades', '8 Spades', '7 Spades', '6 Spades', '5 Spades', '4 Spades', '3 Spades',
+					'4 Spades', '3 Spades', '2 Spades', 'Ace Hearts', 'King Hearts', 'Queen Hearts',
+					'Jack Hearts', '10 Hearts', '9 Hearts', '8 Hearts', '7 Hearts', '6 Hearts', 
+					'5 Hearts', '4 Hearts', '3 Hearts', '2 Hearts', 'Ace Diamonds', 'King Diamonds',
+					'Queen Diamonds', 'Jack Diamonds', '10 Diamonds', '9 Diamonds', '8 Diamonds', 
+					'7 Diamonds', '6 Diamonds', '5 Diamonds', '4 Diamonds', '3 Diamonds', '2 Diamonds']
 		self.discard = []
 
 
 	def shuffle(self):
 		# Code for shuffling the deck
 		shuffle(self.cards)
+
+	def discard_card(self):
+		self.discard.append(self.cards.pop(0))
 
 	def deal_to_players(self, list_of_players):
 		list_of_players = list_of_players
@@ -36,7 +39,7 @@ class Deck:
 
 	def deal_flop(self):
 		'''Discard a card and deal 3 cards to the table'''
-		self.discard.append(self.cards.pop(0))
+		Deck.discard_card(self)
 		cards_to_table = []
 
 		for card in range(0,3):
@@ -48,14 +51,14 @@ class Deck:
 		'''Burn card then deal 1'''
 
 		cards_to_table = []
-		self.discard.append(self.cards.pop(0))
+		Deck.discard_card(self)
 		cards_to_table.append(self.cards.pop(0))
 		return cards_to_table 
 
 	def deal_river(self):
 		'''Burn card then deal the last card to the table'''
 		cards_to_table = []
-		self.discard.append(self.cards.pop(0))
+		Deck.discard_card(self)
 		cards_to_table.append(self.cards.pop(0))
 		return cards_to_table
 
@@ -63,17 +66,21 @@ class Deck:
 		for card in self.discard:
 			print(card)
 
-	def rebuild_deck(self):
+	def reset_deck(self):
 		''' Reset the deck back to it's original state'''
-		self.cards = ['Ace-Clubs', 'King-Clubs', 'Queen-Clubs', 'Jack-Clubs', '10-Clubs', '9-Clubs',
-					'8-Clubs', '7-Clubs', '6-Clubs', '5-Clubs', '4-Clubs', '3-Clubs', '2-Clubs',
-					'Ace-Spades', 'King-Spades', 'Queen-Spades', 'Jack-Spades', '10-Spades', 
-					'9-Spades', '8-Spades', '7-Spades', '6-Spades', '5-Spades', '4-Spades', '3-Spades',
-					'4-Spades', '3-Spades', '2-Spades', 'Ace-Hearts', 'King-Hearts', 'Queen-Hearts',
-					'Jack-Hearts', '10-Hearts', '9-Hearts', '8-Hearts', '7-Hearts', '6-Hearts', 
-					'5-Hearts', '4-Hearts', '3-Hearts', '2-Hearts', 'Ace-Diamonds', 'King-Diamonds',
-					'Queen-Diamonds', 'Jack-Diamonds', '10-Diamonds', '9-Diamonds', '8-Diamonds', 
-					'7-Diamonds', '6-Diamonds', '5-Diamonds', '4-Diamonds', '3-Diamonds', '2-Diamonds'  ]
+		self.cards = ['Ace Clubs', 'King Clubs', 'Queen Clubs', 'Jack Clubs', '10 Clubs', '9 Clubs',
+					'8 Clubs', '7 Clubs', '6 Clubs', '5 Clubs', '4 Clubs', '3 Clubs', '2 Clubs',
+					'Ace Spades', 'King Spades', 'Queen Spades', 'Jack Spades', '10 Spades', 
+					'9 Spades', '8 Spades', '7 Spades', '6 Spades', '5 Spades', '4 Spades', '3 Spades',
+					'4 Spades', '3 Spades', '2 Spades', 'Ace Hearts', 'King Hearts', 'Queen Hearts',
+					'Jack Hearts', '10 Hearts', '9 Hearts', '8 Hearts', '7 Hearts', '6 Hearts', 
+					'5 Hearts', '4 Hearts', '3 Hearts', '2 Hearts', 'Ace Diamonds', 'King Diamonds',
+					'Queen Diamonds', 'Jack Diamonds', '10 Diamonds', '9 Diamonds', '8 Diamonds', 
+					'7 Diamonds', '6 Diamonds', '5 Diamonds', '4 Diamonds', '3 Diamonds', '2 Diamonds']
+		Deck.reset_discard(self)
+
+	def reset_discard(self):
+		self.discard = []
 
 	def print_deck(self):
 		'''Print cards left in the deck. This is mainly for troubleshooting purposes.'''
