@@ -1,4 +1,6 @@
 '''Create player objects and control their hands'''
+import console as c
+
 class Player:
 
 	def __init__(self, name):
@@ -7,6 +9,7 @@ class Player:
 		self.hand = []
 		self.money = 100.00 # For implenting betting later
 		self.fold = False
+		self.score = 0
 
 	def create_player():
 		player = input("What is your poker handle? ")
@@ -21,8 +24,8 @@ class Player:
 
 	def print_hand(self):
 		print('+-----YOUR HAND-----+')
-		for card in range(0,2):
-			print(f'      {self.hand[card]}')
+		for card in self.hand:
+			print(f'      {card}')
 		print('+-------------------+\n')
 
 	def bet_money(self):
@@ -32,7 +35,9 @@ class Player:
 			return 0
 
 		while self.fold == False:
-			bet = input(f"How much would you like to bet?\nYou have ${self.money}.\nBet: $")
+			bet_message = f"How much would you like to bet? You have ${self.money}\n"
+			bet_message += "You can type 'fold' or enter 0 to check\nBet: $"
+			bet = input(bet_message)
 			if bet.lower() == 'check' or bet == None:
 				print(f'You check')
 				return 0
@@ -55,35 +60,10 @@ class Player:
 					return bet
 
 	def reset_players(self, player_list):
+		'''Reset self values of the player for a new game'''
 		for player in player_list:
 			self.fold = False
-
-	def evaluate_hand(self, comprehensive_hand):
-		'''Assign a point value to cards
-		We could add all cards to a list as values, and check for repeated numbers
-		ex - All 2's = 2, all 3's = 3 then check for number of instances
-		of the number in the players hand'''
-		hand_strength = 0
-		three_of_a_kind_base = 30
-		four_of_a_kind_base = 40
-		combo = comprehensive_hand
-		for card in combo:
-			card_split = card.split()
-			if card_split[0] == 'Ace':
-				card_split[0] = 14
-			elif card_split[0] == 'King':
-				card_split[0] = 13
-			elif card_split[0] == 'Queen':
-				card_split[0] = 12
-			elif card_split[0] == 'Jack':
-				card_split[0] = 11
-			try:
-				card_split[0] = int(card_split[0])
-			except ValueError:
-				print("If you see this, then shit is fucked up.")
-			else:
-				hand_strength += card_split[0]
-		print(f"Your current hand_strength is {hand_strength}")
+			self.hand_score = 0
 
 	def comprehensive_hand(self, table_cards):
 		'''Combines the players hand with the cards on the table into
@@ -97,3 +77,17 @@ class Player:
 
 		return combo
 
+	def print_formatted_hand(self, comprehensive_hand):
+		'''Print a formatted LINE of cards'''
+		cards = ''
+		for card in comprehensive_hand:
+			cards += f"{card} "
+		return cards
+
+	def set_hand_score(self, value):
+		'''Set the players hand score'''
+		self.score = value
+
+
+		''' THE FOLLOWING CODE CHECKS FOR CARD SEQUENCES...
+			HOPEFULLY '''

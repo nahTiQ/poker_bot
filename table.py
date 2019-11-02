@@ -1,6 +1,8 @@
 '''Table object'''
-from players import Player
 from random import randint
+
+from players import Player
+import console as c
 
 class Table:
 	def __init__(self):
@@ -38,7 +40,7 @@ class Table:
 			print(card)
 		print('+-----------------+\n')
 
-	def print_pot(self, list_of_players, player_bet):
+	def print_pot(self, players, player_bet):
 		'''Take all bets and print pot to console
 		----- TO DO -----
 		Build seperate function that gets passed bot hand strength and bets
@@ -46,12 +48,12 @@ class Table:
 		bot_bet = 0
 		self.pot_round = 0
 		print('\n+----- PLAYER BETS -----+')
-		for player in list_of_players:
-			if player == list_of_players[0]:
+		for player in players:
+			if player == players[0]:
 				bot_bet = 0
 			else:
 				bot_bet = randint(1,5)
-			if player == list_of_players[0]:
+			if player == players[0]:
 				print(f"   {player.name} bet ${player_bet}")
 			else:
 				print(f'   {player.name.title()} bet ${bot_bet}')

@@ -2,12 +2,17 @@ from random import choice
 
 
 from deck import *
+from hand_hierarchy import *
 from players import *
+# Note: Any table methods not acting on an object need a Table. prefix
 from table import Table
+# Note: Any console methods need a c. prefix
+import console as c
+
 
 # Names for CPU opponents
 # list_of_player_names = ['Player_2', 'Player_3', 'Player_4', 'Player_5', 'Player_6', 'Player_7', 'Player_8' ]
-list_of_player_names = ['Chase', 'Jon', 'Kale', 'Ron', 'Ashley', 'Ty', 'Tina']
+player_names = ['Chase', 'Jon', 'Kale', 'Ron', 'Ashley', 'Ty', 'Tina']
 
 # idk where to put this, so it's going here
 # Creates player variables, tho
@@ -20,13 +25,19 @@ choice() currently grabs the first letter of each name for some reason
 def create_players(number_of_players):
 	number_of_players = int(number_of_players)
 	for number in range(0, number_of_players):
-		player_list.append(Player((list_of_player_names[number])))
+		player_list.append(Player((player_names[number])))
 
 def play_more(keep_playing):
 	'''Pass Table.play_again to this. If false, active = False'''
 	if keep_playing == True:
 		active = True
 		return active
+
+def check_all_players_hands(players):
+	'''pass player list to this to evaluate all hands'''
+	for player in players:
+		player.set_hand_score(evaluate_hand(player.comprehensive_hand(table.cards)))
+
 
 # List for player objects
 player_list = []
@@ -38,13 +49,7 @@ table = Table()
 deck = Deck()
 
 # Print banner
-print('---------------------------------------------')
-print('|                                           |')
-print("|                 nameless                  |")
-print("|              Poker Simulator              |")
-print('|                                           |')
-print('|                                           |')
-print('---------------------------------------------')
+c.print_banner()
 
 # Create player
 player_1 = Player(Player.create_player())
@@ -60,7 +65,7 @@ create_players(number_of_players)
 # Begin play loop
 active = True
 while active == True:
-	print('Shuffling cards...')
+	print(f'Shuffling {len(deck.cards)} cards...')
 	deck.shuffle()
 
 	print('Dealing cards...\n')
@@ -68,36 +73,38 @@ while active == True:
 
 # Player should see his hand here
 	player_1.print_hand()
-	player_1.evaluate_hand(player_1.comprehensive_hand(table.cards))
+	c.printc(get_card_values(player_1.hand))
 	table.print_pot(player_list, player_1.bet_money())
 
 	print("Dealing the flop...\n")
 	table.accept_cards(deck.deal_flop())
 	player_1.print_hand()
 	table.print_table()
-	player_1.evaluate_hand(table.cards)
 	table.print_pot(player_list, player_1.bet_money())
 
 	print("Dealing the turn...\n")
 	table.accept_cards(deck.deal_turn())
 	player_1.print_hand()
 	table.print_table()
-	player_1.evaluate_hand(table.cards)
 	table.print_pot(player_list, player_1.bet_money())
 
 	print("Dealing the river...\n")
 	table.accept_cards(deck.deal_river())
 	player_1.print_hand()
 	table.print_table()
-	player_1.evaluate_hand(table.cards)
 	table.print_pot(player_list, player_1.bet_money())
 
-	print(f'These cards were discarded during the game: ')
-	deck.print_discard()
+
+	check_all_players_hands(player_list)
+	winner = check_winner(player_list)
+	print(f'{winner.name} has won the round and takes the table pot of ${table.pot}!\n')
+	print(f'{winner.name} won the game with:\n{winner.print_formatted_hand(winner.comprehensive_hand(table.cards))}')
+
 
 	active = play_more(table.play_again())
 	if active == True:
 		print('\n+---------- NEW ROUND ----------+\n')
+		print('Resetting the board...')
 	player_1.reset_players(player_list)
 	deck.reset_deck()
 	table.reset_table()
